@@ -12,15 +12,10 @@ const Contact = () => {
 
   useEffect(() => {
     function updateToastPosition() {
-      if (window.innerWidth < 768) {
-        setToastPosition("top-center");
-      } else {
-        setToastPosition("bottom-center");
-      }
+      setToastPosition(window.innerWidth < 768 ? "top-center" : "bottom-center");
     }
 
     updateToastPosition();
-
     window.addEventListener("resize", updateToastPosition);
     return () => window.removeEventListener("resize", updateToastPosition);
   }, []);
@@ -56,22 +51,22 @@ const Contact = () => {
   return (
     <section
       id="contact"
-      className=" sm:mb-[-60px] relative w-full min-h-screen bg-zinc-950 text-white px-6 md:px-20 py-20 overflow-hidden flex flex-col"
+      className="sm:mb-[-60px] relative w-full min-h-screen bg-zinc-950 text-white px-4 md:px-20 py-20 overflow-hidden flex flex-col"
     >
       <Toaster position={toastPosition} />
 
-      {/* Background Animation */}
+      {/* Blurred Background Circles */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 0.1 }}
         transition={{ duration: 2 }}
-        className="absolute w-[40rem] h-[40rem] bg-emerald-500 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse top-[-5rem] -left-40 z-0"
+        className="pointer-events-none absolute w-[40rem] h-[40rem] bg-emerald-500 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse top-[-5rem] -left-40 z-0"
       />
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 0.1 }}
         transition={{ duration: 2 }}
-        className="absolute w-[30rem] h-[30rem] bg-emerald-400 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse bottom-[-4rem] -right-20 z-0"
+        className="pointer-events-none absolute w-[30rem] h-[30rem] bg-emerald-400 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse bottom-[-4rem] -right-20 z-0"
       />
 
       {/* Heading */}
@@ -84,13 +79,13 @@ const Contact = () => {
         Contact Me
       </motion.h2>
 
-      {/* Form & Map */}
-      <div className="relative z-10 flex flex-col md:flex-row gap-10 flex-grow">
+      {/* Contact Form & Map */}
+      <div className="relative z-10 flex flex-col lg:flex-row gap-10 w-full">
         {/* Contact Form */}
         <form
           ref={formRef}
           onSubmit={sendEmail}
-          className="bg-zinc-800 p-6 rounded-lg shadow-lg flex flex-col gap-4 md:flex-1"
+          className="bg-zinc-800 p-6 rounded-lg shadow-lg flex flex-col gap-4 w-full lg:w-1/2"
         >
           <input
             type="text"
@@ -166,22 +161,37 @@ const Contact = () => {
           allowFullScreen=""
           loading="lazy"
           referrerPolicy="no-referrer-when-downgrade"
-          className="md:flex-1 shadow-md border border-emerald-600"
+          className="w-full lg:w-1/2 shadow-md border border-emerald-600"
         ></iframe>
       </div>
 
-      {/* Bottom bar: Follow me + Footer */}
-      <div className="mt-10 flex flex-col md:flex-row justify-between items-center text-emerald-400 select-none gap-4">
-        <div className="flex items-center gap-6 text-3xl">
-          <span className="font-semibold text-lg select-none">Follow me on:</span>
-          <a href="https://youtube.com/@parkour_by_animesh?si=ZTEpZ5oYgpz1AS70" target="_blank" rel="noreferrer">
-            <FaYoutube className="hover:text-red-500 hover:scale-90 transition-colors" />
+      {/* Footer & Social Links */}
+      <div className="mt-10 flex flex-col sm:flex-row justify-between items-center text-emerald-400 select-none gap-6">
+        <div className="flex items-center gap-6">
+          <span className="font-semibold text-lg">Follow me on:</span>
+          <a
+            href="https://youtube.com/@parkour_by_animesh?si=ZTEpZ5oYgpz1AS70"
+            target="_blank"
+            rel="noreferrer"
+            className="p-2 rounded-full hover:bg-zinc-800 transition"
+          >
+            <FaYoutube className="text-3xl hover:text-red-500 transition-colors" />
           </a>
-          <a href="https://www.instagram.com/active_animesh?utm_source=qr&igsh=bHE0aW5lemZzMGw0" target="_blank" rel="noreferrer">
-            <FaInstagram className="hover:text-pink-500 hover:scale-90 transition-colors" />
+          <a
+            href="https://www.instagram.com/active_animesh?utm_source=qr&igsh=bHE0aW5lemZzMGw0"
+            target="_blank"
+            rel="noreferrer"
+            className="p-2 rounded-full hover:bg-zinc-800 transition"
+          >
+            <FaInstagram className="text-3xl hover:text-pink-500 transition-colors" />
           </a>
-          <a href="https://www.facebook.com/animesh.prakash.16" target="_blank" rel="noreferrer">
-            <FaFacebookF className=" text-2xl hover:text-blue-500 hover:scale-90 transition-colors" />
+          <a
+            href="https://www.facebook.com/animesh.prakash.16"
+            target="_blank"
+            rel="noreferrer"
+            className="p-2 rounded-full hover:bg-zinc-800 transition"
+          >
+            <FaFacebookF className="text-2xl hover:text-blue-500 transition-colors" />
           </a>
         </div>
 
@@ -189,22 +199,21 @@ const Contact = () => {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-center md:text-right text-sm font-semibold"
+          className="text-center text-sm font-semibold"
         >
           <h3 className="text-lg font-semibold mb-1">ParkourX</h3>
           <p>
-  &copy; {new Date().getFullYear()}{" "}
-  <a
-    className="cursor-pointer text-md text-emerald-400 hover:text-emerald-600"
-    target="_blank"
-    rel="noreferrer noopener"
-    href="https://animesh-mern.vercel.app/"
-  >
-    Animesh Prakash
-  </a>
-  . All rights reserved.
-</p>
-
+            &copy; {new Date().getFullYear()}{" "}
+            <a
+              className="text-lg text-emerald-200 hover:text-emerald-600"
+              href="https://animesh-mern.vercel.app/"
+              target="_blank"
+              rel="noreferrer noopener"
+            >
+              Animesh Prakash
+            </a>
+            . All rights reserved.
+          </p>
         </motion.footer>
       </div>
     </section>
